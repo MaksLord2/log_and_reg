@@ -1,0 +1,6 @@
+@log_and_reg_HostAddress = http://localhost:5272
+
+GET {{log_and_reg_HostAddress}}/login/
+Accept: application/json
+
+###
