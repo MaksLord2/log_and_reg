@@ -19,6 +19,11 @@ namespace log_and_reg.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterDto request)
         {
+            if (string.IsNullOrWhiteSpace(request.user_name) || string.IsNullOrWhiteSpace(request.password))
+            {
+                return BadRequest(new {message =  "Username or password cannot be empty" });
+            }
+
             var user = new User { user_name = request.user_name };
             await _userService.Register(user, request.password);
             return Ok(new { message = "User registered successfully" });
@@ -27,6 +32,11 @@ namespace log_and_reg.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto request)
         {
+            if(string.IsNullOrWhiteSpace(request.user_name) || string.IsNullOrWhiteSpace(request.password))
+            {
+                return BadRequest(new { message = "Username or password cannot be empty" });
+            }
+
             var user = await _userService.Login(request.user_name, request.password);
             if (user == null)
                 return Unauthorized(new { message = "Username or password is incorrect" });
